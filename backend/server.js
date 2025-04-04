@@ -6,6 +6,9 @@ import  connectDB   from './config/db.js';
 import router from './routes/auth.route.js';
 import userRoute from './routes/user.route.js';
 import swaggerDocs from "./config/swagger.js";
+import jobrouter from './routes/jobs.route.js';
+import application_router from './routes/application.route.js';
+
 dotenv.config()
 
 const app = express();
@@ -24,7 +27,8 @@ app.use(cors({origin: allowedOrigins, credentials:true}));
 // API ENDPOINTS 
 app.use('/api/auth', router);
 app.use('/api/user', userRoute);
-
+app.use("/api/jobs", jobrouter);
+app.use("/api/apply", application_router);
 
 swaggerDocs(app);
 
