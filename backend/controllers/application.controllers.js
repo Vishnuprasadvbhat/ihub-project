@@ -1,4 +1,4 @@
-import Application from "../models/Application.js";
+import Application from "../models/application.model.js";
 
 // Apply for a job
 export const applyForJob = async (req, res) => {

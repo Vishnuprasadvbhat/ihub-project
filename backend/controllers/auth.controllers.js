@@ -7,6 +7,9 @@ import userAuth from '../middlewares/user.auth.js';
 import dotenv from 'dotenv';
 import winston from 'winston';
 import Joi from 'joi';
+import VerifyGoogleToken from '../config/verifytoken.js';
+
+
 dotenv.config();
 
 
@@ -55,7 +58,7 @@ export const registeruser = (async (req, res) => {
   //   return res.status(400).json({ success: false, message: error.details[0].message });
   // }
 
-  const {Name, email, password} = req.body
+  const {Name, email, password, picture} = req.body
 
   if (!Name || !email || !password) {
     return res.status(400).json({sucess: false, message: 'Please enter all fields'})
@@ -77,10 +80,11 @@ export const registeruser = (async (req, res) => {
     console.log(`Hashing password took ${hashTime - userCheckTime}ms`)
 
 
-    const user = new UserModel({Name , email, password: hashedPassword})
+    const user = new UserModel({Name , email, password: hashedPassword, picture});
     await user.save()
     const saveUserTime = Date.now();
     console.log(`Saving user took ${saveUserTime - hashTime}ms`);
+
 
     const token = jwt.sign({ id: user._id}, process.env.SECRET_KEY, {expiresIn: '7d'});
 
@@ -114,6 +118,60 @@ export const registeruser = (async (req, res) => {
   }
 
 });
+
+export const google_auth = (async (req, res) => {
+  try{
+    const {token} = req.body;
+
+    if (!token){
+      return res.status(401).json('Sign Up failed, Check Google console');
+    }
+
+    const ticket = await VerifyGoogleToken(token);
+
+    const payload = ticket.getPayload();
+
+    const {Name, email, picture} = payload;
+
+    let user =  await UserModel.find({email});
+
+    if (!user){
+      user = new UserModel({
+        Name : Name,
+        email : email,
+        picture: picture });
+
+      await user.save();
+    }
+
+    const user_token = jwt.sign({id : user._id} , process.env.SECRET_KEY, {expiresIn: '7d'});
+
+
+    res.cookie('token', user_token , {
+      httpOnly : true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite : process.env.NODE_ENV === 'production' ? 'none' : 'strict',
+      maxAge : 7 * 24 * 60 * 60 * 1000 
+    })
+
+    const mailOptions = {
+      from: process.env.SENDER_EMAIL, 
+      to: email,
+      subject: 'Welcome to Ihub Technologies',
+      text: `Your account has been successfully created with email id: ${email}`
+    }
+
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).json({sucess:true, message: 'Successfully Registered'});    
+  }
+
+  catch(error){
+    logger.error(`Registration error: ${error.message}`);
+    res.status(500).json({sucess:false, message: error.message});
+  }
+});
+
 
 export const loginuser = (async (req, res) => {
 
