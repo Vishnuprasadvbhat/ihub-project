@@ -26,7 +26,7 @@ app.use(cors({origin: allowedOrigins, credentials:true}));
 
 // API ENDPOINTS 
 app.use('/api/auth', router);
-app.use('/api/user', userRoute);
+app.use('/api/user', userRoute)
 app.use("/api/jobs", jobrouter);
 app.use("/api/apply", application_router);
 
