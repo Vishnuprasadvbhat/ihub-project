@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllJobs, searchJobs } from "../controllers/jobs.contoller";
+import { getAllJobs, searchJobs } from "../controllers/jobs.contoller.js";
 
 const jobrouter = express.Router();
 

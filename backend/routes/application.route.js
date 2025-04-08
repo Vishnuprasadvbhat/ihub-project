@@ -1,5 +1,5 @@
 import express from "express";
-import { applyForJob, getUserApplications } from "../controllers/application.controllers";
+import { applyForJob, getUserApplications } from "../controllers/application.controllers.js";
 
 const application_router = express.Router();
 

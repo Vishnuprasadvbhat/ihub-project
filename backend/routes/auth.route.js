@@ -1,6 +1,6 @@
 // /// Create Routes to The application 
 import express from 'express';
-import { IsAuthenticated, loginuser, logout, registeruser, resetPassword, sendResetOTP, sendVerifyOTP, userget, verifyEmail }  from "../controllers/auth.controllers.js";
+import { google_auth, IsAuthenticated, loginuser, logout, registeruser, resetPassword, sendResetOTP, sendVerifyOTP, userget, verifyEmail }  from "../controllers/auth.controllers.js";
 import userAuth from '../middlewares/user.auth.js';
 import rateLimit from 'express-rate-limit';
 
@@ -55,6 +55,9 @@ router.get("/me", userAuth, userget );
  *         description: Validation error
  */
 router.post('/users', registeruser);
+
+
+router.post('/google/oauth', google_auth);
 
 
 /**
@@ -196,6 +199,7 @@ router.post('/password/reset/request', sendResetOTP);
  *         description: Password reset successful
  */
 router.post('/password/reset', resetPassword);
+
 
 
 
