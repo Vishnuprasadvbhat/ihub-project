@@ -8,7 +8,7 @@ import {
 import { FaLocationDot } from "react-icons/fa6"; 
 import HeroImage from '../../assets/Hero.png';
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../auth/context/Authcontext";
+import { AuthContext } from "../context/Authcontext";
 import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

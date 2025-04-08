@@ -2,13 +2,16 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { GoogleLogin, googleLogout } from "@react-oauth/google";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import { jwtDecode } from "jwt-decode";
+import GoogleAuthLogin from "../context/GoogleOAuth";
 
 const SignupForm = () => {
-  const [Name, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  var [Name, setFullName] = useState("");
+  var [email, setEmail] = useState("");
+  var [password, setPassword] = useState("");
+  var [Picture, setPicture] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [errors, setErrors] = useState({});
@@ -38,7 +41,7 @@ const SignupForm = () => {
 
     try {
       axios.defaults.withCredentials = true;
-      const response = await axios.post(`${backendUrl}/api/auth/users`, {Name, email,password});
+      const response = await axios.post(`${backendUrl}/api/auth/users`, {Name, email,password, Picture});
 
       console.log("API Response:", response.data);
       setTimeout(() => {
@@ -59,6 +62,7 @@ const SignupForm = () => {
       }
     }
   };
+
 
   return (
     <div className="flex flex-col items-center justify-between min-h-screen bg-gray-200 px-8">
@@ -138,6 +142,11 @@ const SignupForm = () => {
           >
             Create Account
           </button>
+          
+          <div className="mt-4">
+            <GoogleLogin onSuccess={(CredentialResponse) => {
+              GoogleAuthLogin(CredentialResponse);}}></GoogleLogin>
+          </div>
 
           <p className="text-center text-sm mt-4">
             Already have an account? {" "}

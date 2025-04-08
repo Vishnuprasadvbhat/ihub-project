@@ -31,7 +31,7 @@ const Login = () => {
       axios.defaults.withCredentials = true;
   
       const response = await axios.post(`${backendUrl}/api/auth/login`, { email, password });
-      setTimeout(navigate("/"), 2000); 
+      setTimeout(navigate("/user/dashboard"), 2000); 
       
       if (!response.data.success) {
         toast.error(response.data.message || "Login failed.");
