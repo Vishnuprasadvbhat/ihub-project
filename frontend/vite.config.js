@@ -5,5 +5,8 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(),
     tailwindcss(),
-  ]
+  ],
+  headers: {
+    'Cross-Origin-Embedder-Policy': 'unsafe-none'
+  }
 })
