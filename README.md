@@ -210,15 +210,7 @@ Opportunity Hub is a Gen AI based hiring tool that assists companies with their 
      - Verify all environment variables are set
      - Check console logs for errors
 
-3. **Code Quality**:
-   - Run linter:
-     ```bash
-     npm run lint
-     ```
-   - Format code:
-     ```bash
-     npm run format
-     ```
+
 
 ## Key Features
 
