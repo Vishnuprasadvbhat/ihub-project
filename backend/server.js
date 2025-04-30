@@ -8,6 +8,7 @@ import userRoute from './routes/user.route.js';
 import swaggerDocs from "./config/swagger.js";
 import jobrouter from './routes/jobs.route.js';
 import application_router from './routes/application.route.js';
+import Candidaterouter from './routes/candidate.route.js';
 
 dotenv.config()
 
@@ -29,6 +30,7 @@ app.use('/api/auth', router);
 app.use('/api/user', userRoute)
 app.use("/api/jobs", jobrouter);
 app.use("/api/apply", application_router);
+app.use("/api/user/candidate", Candidaterouter);
 
 swaggerDocs(app);
 
