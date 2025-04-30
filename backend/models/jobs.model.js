@@ -8,4 +8,5 @@ const jobSchema = new mongoose.Schema({
   postedAt: { type: Date, default: Date.now },
 });
 
-export default mongoose.model("Job", jobSchema);
+const Job = mongoose.model("Job", jobSchema);
+export default  Job;
